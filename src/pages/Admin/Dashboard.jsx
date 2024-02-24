@@ -1,19 +1,13 @@
 import { useState, Fragment } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
 import initializeUser from "../../utils/initializeUser";
 import images from "../../assets/Images";
-import DashboardContent from "../../components/DashboardContent";
-import UsersContent from "../../components/UsersContent";
+import DashboardOverview from "../../components/DashboardOverview";
+import UsersTable from "../../components/UsersTable";
 import { logout } from "../../api/auth";
-
-const user = {
-    name: "Tom Cook",
-    email: "tom@example.com",
-    imageUrl: images.profile
-};
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ")
@@ -22,14 +16,16 @@ function classNames(...classes) {
 function Dashboard() {
     const dispatch = useDispatch();
 
+    const username = useSelector((state) => state.user.username);
+
     const [activeTab, setActiveTab] = useState("Dashboard");
 
     const renderTabContent = () => {
         switch (activeTab) {
             case "Dashboard":
-                return <DashboardContent />;
+                return <DashboardOverview />;
             case "Users":
-                return <UsersContent />;
+                return <UsersTable />;
             default:
                 return null;
         }
@@ -39,6 +35,11 @@ function Dashboard() {
         { name: "Dashboard", href: "#", current: activeTab === "Dashboard" },
         { name: "Users", href: "#", current: activeTab === "Users" },
     ];
+
+    const user = {
+        name: username,
+        imageUrl: images.profile
+    };
 
     const handleLogout = async () => {
         const response = await logout({ role: "admin" });

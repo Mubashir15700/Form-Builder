@@ -2,9 +2,9 @@ import { useState, useEffect, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Toaster } from "react-hot-toast";
-import initializeUser from "../utils/initializeUser";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ErrorBoundary from "../components/ErrorBoundary";
+import initializeUser from "../utils/initializeUser";
 import AdminRoutes from "./AdminRoutes";
 import UserRoutes from "./UserRoutes";
 

@@ -1,5 +1,6 @@
 import { useState, Fragment } from "react";
-import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
@@ -7,15 +8,9 @@ import { FaPlus } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 import initializeUser from "../../utils/initializeUser";
 import images from "../../assets/Images";
-import DashboardContent from "../../components/DashboardContent";
-import ProjectsContent from "../../components/ProjectsContent";
+import HomeOverview from "../../components/HomeOverview";
+import Projects from "../../components/Projects";
 import { logout } from "../../api/auth";
-
-const user = {
-  name: "Tom Cook",
-  email: "tom@example.com",
-  imageUrl: images.profile,
-};
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ")
@@ -24,21 +19,28 @@ function classNames(...classes) {
 function Home() {
   const dispatch = useDispatch();
 
-  const [activeTab, setActiveTab] = useState("Dashboard");
+  const username = useSelector((state) => state.user.username);
+
+  const [activeTab, setActiveTab] = useState("Home");
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case "Dashboard":
-        return <DashboardContent />;
+      case "Home":
+        return <HomeOverview />;
       case "Projects":
-        return <ProjectsContent />;
+        return <Projects />;
       default:
         return null;
     }
   };
 
+  const user = {
+    name: username,
+    imageUrl: images.profile,
+  };
+
   const navigation = [
-    { name: "Dashboard", href: "#", current: activeTab === "Dashboard" },
+    { name: "Home", href: "#", current: activeTab === "Home" },
     { name: "Projects", href: "#", current: activeTab === "Projects" },
   ];
 
@@ -193,9 +195,12 @@ function Home() {
               effect="solid"
               content={"Creat new form"}
             />
-            <button className="add-icon-tooltip rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm">
+            <Link
+              className="add-icon-tooltip rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm"
+              to={"/new-project"}
+            >
               <FaPlus />
-            </button>
+            </Link>
           </div>
         </header>
         <main>

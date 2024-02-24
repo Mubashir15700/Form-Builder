@@ -46,7 +46,6 @@ const Signup = () => {
             const response = await signUp(formData);
             if (response) {
                 if (response.status === 200) {
-                    toast.error(response.message);
                     initializeUser("user", dispatch);
                     navigate("/home");
                 } else {

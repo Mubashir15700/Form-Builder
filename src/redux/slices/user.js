@@ -6,6 +6,7 @@ const userSlice = createSlice({
         loading: false,
         isLoggedIn: false,
         username: null,
+        formsCreated: null,
         role: null,
     },
     reducers: {
@@ -18,12 +19,17 @@ const userSlice = createSlice({
         setUsername: (state, action) => {
             state.username = action.payload;
         },
+        setFormsCreated: (state, action) => {
+            state.username = action.payload;
+        },
         setRole: (state, action) => {
             state.role = action.payload;
         },
     },
 });
 
-export const { setLoading, setLoggedIn, setUsername, setRole } = userSlice.actions;
+export const {
+    setLoading, setLoggedIn, setUsername, setFormsCreated, setRole
+} = userSlice.actions;
 
 export default userSlice.reducer;
