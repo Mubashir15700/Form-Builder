@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { IoMdEyeOff } from "react-icons/io";
 import { IoEye } from "react-icons/io5";
 import toast from "react-hot-toast";
-import loginSchema from "../utils/validations/loginSchema";
 import handleInputChange from "../utils/formUtils/handleInputChange";
 import handleFormErrors from "../utils/formUtils/handleFormErrors";
 import initializeUser from "../utils/initializeUser";
@@ -37,9 +36,6 @@ const Login = ({ role }) => {
         e.preventDefault();
 
         try {
-            await loginSchema.validate(formData, { abortEarly: false });
-            setErrors({});
-
             const response = await login(formData);
 
             if (response) {
