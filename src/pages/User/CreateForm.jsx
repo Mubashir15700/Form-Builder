@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
+import inputValidationSchema from "../../utils/validations/inputValidationSchema";
+import convertToCamelCase from "../../utils/convertToCamelCase"
 import { createForm } from "../../api/user";
 
 const CreateForm = () => {
@@ -15,36 +17,61 @@ const CreateForm = () => {
     const [showTitleDescriptionModal, setShowTitleDescriptionModal] = useState(false);
     const [fieldName, setFieldName] = useState("");
     const [elementType, setElementType] = useState("text");
+    const [isRequired, setIsRequired] = useState(false);
+    const [minLength, setMinLength] = useState(0);
+    const [maxLength, setMaxLength] = useState(999);
 
     const addFormElement = () => {
+        // Validate minLength and maxLength
+        try {
+            inputValidationSchema.validateSync({
+                minLength,
+                maxLength
+            }, { abortEarly: false });
+        } catch (error) {
+            error.inner.forEach(err => {
+                toast.error(err.message);
+            });
+            return;
+        }
+
+        if (!fieldName || !elementType) {
+            toast.error("Field name and element type are required");
+            return;
+        }
+
+        const inputProps = {
+            placeholder: `Enter ${fieldName}`,
+            name: fieldName,
+            className: "mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500",
+            validations: {
+                minLength,
+                maxLength,
+                isRequired
+            }
+        };
+
         let newFormElement;
         switch (elementType) {
             case "text":
-                newFormElement = <input type="text" placeholder={`Enter ${fieldName}`} name={fieldName} className="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" />;
-                break;
             case "password":
-                newFormElement = <input type="password" placeholder={`Enter ${fieldName}`} name={fieldName} className="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" />;
-                break;
             case "number":
-                newFormElement = <input type="number" placeholder={`Enter ${fieldName}`} name={fieldName} className="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" />;
-                break;
             case "email":
-                newFormElement = <input type="email" placeholder={`Enter ${fieldName}`} name={fieldName} className="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" />;
+                newFormElement = <input type={elementType} {...inputProps} />;
                 break;
             case "textarea":
-                newFormElement = <textarea placeholder={`Enter ${fieldName}`} name={fieldName} className="mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" />;
+                newFormElement = <textarea {...inputProps} />;
                 break;
             default:
                 newFormElement = null;
         }
 
-        if (fieldName && elementType) {
-            setFormElements(prevElements => [...prevElements, newFormElement]);
-            setShowModal(false);
-            setFieldName("");
-        } else {
-            toast.error("Field name and element type are required");
-        }
+        setFormElements(prevElements => [...prevElements, newFormElement]);
+        setShowModal(false);
+        setFieldName("");
+        setMinLength(0);
+        setMaxLength(999);
+        setIsRequired(false);
     };
 
     // Function to handle adding form title and description
@@ -89,6 +116,8 @@ const CreateForm = () => {
             toast.error("An error occured: " + error.message);
         }
     };
+
+    console.log(formElements);
 
     return (
         <div className="flex px-5 items-center justify-center min-h-screen">
@@ -159,6 +188,23 @@ const CreateForm = () => {
                                     <option value="email">Email</option>
                                     <option value="textarea">Textarea</option>
                                 </select>
+                            </div>
+                            <div className="block text-sm font-medium text-gray-700">
+                                <p>Validations:</p>
+                                <div className="mb-4">
+                                    <label htmlFor="isRequired" className="inline-flex items-center mt-2">
+                                        <input type="checkbox" id="isRequired" checked={isRequired} onChange={e => setIsRequired(e.target.checked)} className="form-checkbox h-5 w-5 text-blue-500" />
+                                        <span className="ml-2">Required</span>
+                                    </label>
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="minLength" className="block text-sm font-medium text-gray-700">Minimum Length:</label>
+                                    <input type="number" id="minLength" name="minLength" value={minLength} onChange={e => setMinLength(e.target.value)} className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 w-full text-black" />
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="maxLength" className="block text-sm font-medium text-gray-700">Maximum Length:</label>
+                                    <input type="number" id="maxLength" name="maxLength" value={maxLength} onChange={e => setMaxLength(e.target.value)} className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 w-full text-black" />
+                                </div>
                             </div>
                             <div className="flex justify-end">
                                 <button onClick={addFormElement} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Add</button>

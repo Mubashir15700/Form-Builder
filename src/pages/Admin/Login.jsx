@@ -2,7 +2,7 @@ import LoginPage from "../../components/LoginPage";
 
 const Login = () => {
     return (
-        <LoginPage role={"user"} />
+        <LoginPage role={"admin"} />
     );
 };
 

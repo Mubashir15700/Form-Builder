@@ -6,20 +6,14 @@ const validationSchema = Yup.object().shape({
         .min(3, "Username must be at least 3 characters")
         .max(20, "Username must not exceed 20 characters")
         .matches(/^[a-zA-Z0-9_]+$/, "Username can only contain letters, numbers, and underscores"),
-    email: Yup.string()
-        .required("Email is required")
-        .email("Invalid email format"),
-        password: Yup.string()
+    password: Yup.string()
         .required("Password is required")
         .min(6, "Password must be at least 6 characters")
         .max(20, "Password must not exceed 20 characters")
         .matches(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{6,}$/,
             "Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character"
-        ),    
-    confirmPassword: Yup.string()
-        .oneOf([Yup.ref("password"), null], "Passwords must match")
-        .required("Confirm Password is required"),
+        ),
 });
 
 export default validationSchema;

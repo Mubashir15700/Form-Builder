@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import DataTable from "react-data-table-component";
-import { getUsers } from "../api/admin";
+import { getUsers } from "../../api/admin";
 
 const UsersTable = () => {
   const [users, setUsers] = useState([]);

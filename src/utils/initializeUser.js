@@ -1,6 +1,6 @@
 import { checkAuth } from "../api/auth";
 import { setLoading } from "../redux/slices/user";
-import { setLoggedIn, setUsername, setRole } from "../redux/slices/user";
+import { setLoggedIn, setUsername, setFormsCreated, setRole } from "../redux/slices/user";
 
 const initializeUser = async (role, dispatch) => {
     try {
@@ -9,6 +9,7 @@ const initializeUser = async (role, dispatch) => {
         if (response && response.status === 200) {
             dispatch(setLoggedIn(true));
             dispatch(setUsername(response?.userData?.username));
+            dispatch(setFormsCreated(response?.userData?.formsCreated));
             dispatch(setRole(role));
         } else {
             dispatch(setLoggedIn(false));

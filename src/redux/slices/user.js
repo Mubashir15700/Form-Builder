@@ -20,7 +20,7 @@ const userSlice = createSlice({
             state.username = action.payload;
         },
         setFormsCreated: (state, action) => {
-            state.username = action.payload;
+            state.formsCreated = action.payload;
         },
         setRole: (state, action) => {
             state.role = action.payload;

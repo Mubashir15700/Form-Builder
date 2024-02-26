@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import images from "../../assets/Images";
+import Logo from "../../components/Logo";
 
 function LandingPage() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -14,11 +14,7 @@ function LandingPage() {
                     <div className="flex lg:flex-1">
                         <a href="#" className="-m-1.5 p-1.5">
                             <span className="sr-only">Your Company</span>
-                            <img
-                                className="h-8 w-auto"
-                                src={images.logo}
-                                alt=""
-                            />
+                            <Logo />
                         </a>
                     </div>
                     <div className="flex lg:hidden">
@@ -32,9 +28,9 @@ function LandingPage() {
                         </button>
                     </div>
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                        <a href="#" className="text-sm font-semibold leading-6 text-#d6d3d1">
+                        <Link to={"/login"} className="text-sm font-semibold leading-6 text-#d6d3d1">
                             Log in <span aria-hidden="true">&rarr;</span>
-                        </a>
+                        </Link>
                     </div>
                 </nav>
                 <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
@@ -43,11 +39,7 @@ function LandingPage() {
                         <div className="flex items-center justify-between">
                             <a href="#" className="-m-1.5 p-1.5">
                                 <span className="sr-only">Your Company</span>
-                                <img
-                                    className="h-8 w-auto"
-                                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                    alt=""
-                                />
+                                <Logo />
                             </a>
                             <button
                                 type="button"
@@ -61,11 +53,8 @@ function LandingPage() {
                         <div className="mt-6 flow-root">
                             <div className="-my-6 divide-y divide-gray-500/10">
                                 <div className="py-6">
-                                    <Link
-                                        to={"/login"}
-                                        className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-#d6d3d1 hover:bg-indigo-600"
-                                    >
-                                        Log in
+                                    <Link to={"/login"} className="text-sm font-semibold leading-6 text-#d6d3d1">
+                                        Log in <span aria-hidden="true">&rarr;</span>
                                     </Link>
                                 </div>
                             </div>

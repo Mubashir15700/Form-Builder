@@ -1,27 +1,25 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import toast from "react-hot-toast";
 import { IoMdEyeOff } from "react-icons/io";
 import { IoEye } from "react-icons/io5";
-import signupSchema from "../../utils/validations/signupSchema";
-import Logo from "../../components/Logo";
-import FormErrorDisplay from "../../components/FormErrorDisplay";
-import ServerResponseDisplay from "../../components/ServerResponseDisplay";
-import handleInputChange from "../../utils/formUtils/handleInputChange";
-import handleFormErrors from "../../utils/formUtils/handleFormErrors";
-import initializeUser from "../../utils/initializeUser";
-import { signUp } from "../../api/auth";
+import toast from "react-hot-toast";
+import loginSchema from "../utils/validations/loginSchema";
+import handleInputChange from "../utils/formUtils/handleInputChange";
+import handleFormErrors from "../utils/formUtils/handleFormErrors";
+import initializeUser from "../utils/initializeUser";
+import Logo from "./Logo";
+import FormErrorDisplay from "./FormErrorDisplay";
+import ServerResponseDisplay from "./ServerResponseDisplay";
+import { login } from "../api/auth";
 
-const Signup = () => {
-    const navigate = useNavigate();
+const Login = ({ role }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         username: "",
-        email: "",
         password: "",
-        confirmPassword: ""
     });
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
@@ -35,20 +33,25 @@ const Signup = () => {
         handleInputChange(e, formData, setFormData, setServerResponse, setErrors);
     };
 
-    const handleSignUp = async (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
+
         try {
-            // Validate formData against the signup schema
-            await signupSchema.validate(formData, { abortEarly: false });
+            await loginSchema.validate(formData, { abortEarly: false });
+            setErrors({});
 
-            setErrors({}); // Clear previous validation errors
+            const response = await login(formData);
 
-            // If validation passes, proceed with signup
-            const response = await signUp(formData);
             if (response) {
+                setServerResponse(response);
                 if (response.status === 200) {
-                    initializeUser("user", dispatch);
-                    navigate("/home");
+                    if (role === "admin") {
+                        initializeUser("admin", dispatch);
+                        navigate("/admin");
+                    } else {
+                        initializeUser("user", dispatch);
+                        navigate("/home");
+                    }
                 } else {
                     toast.error(response.message);
                 }
@@ -59,49 +62,32 @@ const Signup = () => {
     };
 
     return (
-        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-10 lg:px-8">
+        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 mt-10 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <Logo />
                 <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-#d6d3d1">
-                    Create an account
+                    Sign in to your account
                 </h2>
             </div>
 
             <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
                 <form className="space-y-6">
                     <div>
-                        <label htmlFor="username" className="block text-sm font-medium leading-6 text-#d6d3d1">
+                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-#d6d3d1">
                             Username
                         </label>
                         <div>
                             <input
-                                id="text"
+                                id="username"
                                 name="username"
                                 type="text"
-                                autoComplete="text"
+                                autoComplete="username"
                                 required
                                 className="block w-full rounded-md border-0 py-1.5 px-1 text-d6d3d1 bg-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 onChange={handleChange}
                             />
                         </div>
                         <FormErrorDisplay error={errors.username} />
-                    </div>
-                    <div>
-                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-#d6d3d1">
-                            Email address
-                        </label>
-                        <div>
-                            <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                autoComplete="email"
-                                required
-                                className="block w-full rounded-md border-0 py-1.5 px-1 text-d6d3d1 bg-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <FormErrorDisplay error={errors.email} />
                     </div>
 
                     <div>
@@ -122,26 +108,6 @@ const Signup = () => {
                             />
                         </div>
                         <FormErrorDisplay error={errors.password} />
-                    </div>
-
-                    <div>
-                        <div className="flex items-center justify-between">
-                            <label htmlFor="password" className="block text-sm font-medium leading-6 text-#d6d3d1">
-                                Confirm Password
-                            </label>
-                        </div>
-                        <div>
-                            <input
-                                id="confirmPassword"
-                                name="confirmPassword"
-                                type={showPassword ? "text" : "password"}
-                                autoComplete="current-password"
-                                required
-                                className="block w-full rounded-md border-0 py-1.5 px-1 text-d6d3d1 bg-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <FormErrorDisplay error={errors.confirmPassword} />
                         {/* Show/Hide Password Button */}
                         <button
                             type="button"
@@ -160,24 +126,26 @@ const Signup = () => {
                         <button
                             type="submit"
                             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            onClick={handleSignUp}
+                            onClick={handleLogin}
                         >
-                            Sign up
+                            Sign in
                         </button>
                     </div>
                     {serverResponse && (
                         <ServerResponseDisplay serverResponse={serverResponse} />
                     )}
                 </form>
-                <p className="mt-10 text-center text-sm text-gray-500">
-                    Already a member?{' '}
-                    <Link to="/login" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                        Sign in
-                    </Link>
-                </p>
+                {role === "user" && (
+                    <p className="mt-10 text-center text-sm text-gray-500">
+                        Not a member?{" "}
+                        <Link to="/sign-up" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+                            Create account
+                        </Link>
+                    </p>
+                )}
             </div>
         </div>
     );
 };
 
-export default Signup;
+export default Login;

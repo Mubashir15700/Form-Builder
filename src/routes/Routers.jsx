@@ -7,6 +7,7 @@ import ErrorBoundary from "../components/ErrorBoundary";
 import initializeUser from "../utils/initializeUser";
 import AdminRoutes from "./AdminRoutes";
 import UserRoutes from "./UserRoutes";
+import FormRoutes from "./FormRoute";
 
 const Routers = () => {
     const dispatch = useDispatch();
@@ -41,6 +42,10 @@ const Routers = () => {
                     <Route
                         path="/admin/*"
                         element={<AdminRoutes isLoggedIn={isLoggedIn} />}
+                    />
+                    <Route
+                        path="/forms/*"
+                        element={<FormRoutes />}
                     />
                     <Route
                         path="/*"
