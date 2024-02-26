@@ -8,7 +8,6 @@ import { FaPlus } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 import initializeUser from "../utils/initializeUser";
 import Logo from "./Logo";
-import images from "../assets/Images";
 import { logout } from "../api/auth";
 
 function classNames(...classes) {

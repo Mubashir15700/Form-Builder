@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
 import inputValidationSchema from "../../utils/validations/inputValidationSchema";
-import convertToCamelCase from "../../utils/convertToCamelCase"
 import { createForm } from "../../api/user";
 
 const CreateForm = () => {

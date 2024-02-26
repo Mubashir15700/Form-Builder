@@ -23,9 +23,6 @@ export default function FormSubmissions() {
         }
     }, [formElements]);
 
-
-    console.log("dsfsdfsdf", formElementIds);
-
     useEffect(() => {
         const getFormStructure = async () => {
             try {
@@ -61,10 +58,6 @@ export default function FormSubmissions() {
         getFormStructure();
         getAllSubmissions();
     }, []);
-
-
-    console.log("form", formElements);
-    console.log("subms", submissions);
 
     return (
         <ul role="list" className="pt-12 divide-y mx-4 divide-gray-100">
