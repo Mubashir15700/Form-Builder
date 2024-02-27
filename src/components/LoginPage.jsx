@@ -8,6 +8,7 @@ import handleInputChange from "../utils/formUtils/handleInputChange";
 import handleFormErrors from "../utils/formUtils/handleFormErrors";
 import initializeUser from "../utils/initializeUser";
 import Logo from "./Logo";
+import loginValidationSchema from "../utils/validations/loginSchema";
 import FormErrorDisplay from "./FormErrorDisplay";
 import ServerResponseDisplay from "./ServerResponseDisplay";
 import { login } from "../api/auth";
@@ -36,6 +37,11 @@ const Login = ({ role }) => {
         e.preventDefault();
 
         try {
+            // Validate formData against the signup schema
+            await loginValidationSchema.validate(formData, { abortEarly: false });
+
+            setErrors({}); // Clear previous validation errors
+
             const response = await login(formData);
 
             if (response) {
@@ -133,17 +139,18 @@ const Login = ({ role }) => {
                 </form>
                 {role === "user" && (
                     <>
-                        <p className="mt-10 text-center text-sm text-gray-500">
+                        <div className="mt-10 text-center text-sm text-gray-500">
                             Not a member?{" "}
                             <Link to="/sign-up" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
                                 Create account
                             </Link>
-                        </p>
-                        <p>
-                            <Link to="/admin/login" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                                Login as admin
-                            </Link>
-                        </p>
+                            <div>
+
+                                <Link to="/admin/login" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+                                    Login as admin
+                                </Link>
+                            </div>
+                        </div>
                     </>
                 )}
             </div>

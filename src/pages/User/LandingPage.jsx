@@ -8,7 +8,7 @@ function LandingPage() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
-        <div>
+        <div className="mt-12 sm:mt-0">
             <header className="fixed inset-x-0 top-0 z-50">
                 <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
                     <div className="flex lg:flex-1">

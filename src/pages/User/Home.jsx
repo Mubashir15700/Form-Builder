@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import images from "../../assets/Images";
 import NavigationBar from "../../components/NavigationBar";
 import HomeOverview from "../../components/user/HomeOverview";
-import Projects from "../../components/user/Projects";
+import FormLists from "../../components/FormLists";
 
 function Home() {
   const username = useSelector((state) => state.user.username);
@@ -15,7 +15,7 @@ function Home() {
       case "Home":
         return <HomeOverview setActiveTab={setActiveTab} />;
       case "Projects":
-        return <Projects />;
+        return <FormLists role={"user"} />;
       default:
         return null;
     }

@@ -18,10 +18,14 @@ export default function FormSubmissions() {
     useEffect(() => {
         if (formElements.length) {
             // Extract _id values from formElements and set them to formElementIds
-            const ids = formElements.map(element => element._id);
+            const ids = [];
+            formElements.forEach(element => {
+                ids.push(element._id);
+            });
             setFormElementIds(ids);
         }
     }, [formElements]);
+
 
     useEffect(() => {
         const getFormStructure = async () => {
@@ -44,7 +48,6 @@ export default function FormSubmissions() {
                 const response = await getSubmissions(id);
                 if (response && response.status === 200) {
                     setSubmissions(response.submissions);
-                    console.log(response.submissions);
                 } else {
                     toast.error("Failed to fetch submissions");
                 }
@@ -68,21 +71,23 @@ export default function FormSubmissions() {
             ) : (
                 submissions.length ? (
                     <div className="overflow-x-auto">
+                        <p>{form.title}</p>
+                        <p>{form.description}</p>
                         <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                             <thead className="ltr:text-left rtl:text-right">
                                 <tr>
-                                    {formElements.map((element) => (
-                                        <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                                    {formElements.map((element, index) => (
+                                        <th key={index} className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                                             {element.name}
                                         </th>
                                     ))}
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
-                                {submissions.map((submission) => (
-                                    <tr className="text-black">
+                                {submissions.map((submission, index) => (
+                                    <tr key={index} className="text-black">
                                         {formElementIds.map((element, index) => (
-                                            <td>
+                                            <td key={index}>
                                                 {submission.formData[formElementIds[index]]}
                                             </td>
                                         ))}
@@ -95,7 +100,8 @@ export default function FormSubmissions() {
                 ) : (
                     <div className="grid mt-12 place-items-center">
                         No submissions found
-                    </div>)
+                    </div>
+                )
             )}
         </ul>
     );

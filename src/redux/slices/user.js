@@ -6,6 +6,7 @@ const userSlice = createSlice({
         loading: false,
         isLoggedIn: false,
         username: null,
+        userId: null,
         formsCreated: null,
         role: null,
     },
@@ -19,6 +20,9 @@ const userSlice = createSlice({
         setUsername: (state, action) => {
             state.username = action.payload;
         },
+        setUserId: (state, action) => {
+            state.userId = action.payload;
+        },
         setFormsCreated: (state, action) => {
             state.formsCreated = action.payload;
         },
@@ -29,7 +33,7 @@ const userSlice = createSlice({
 });
 
 export const {
-    setLoading, setLoggedIn, setUsername, setFormsCreated, setRole
+    setLoading, setLoggedIn, setUsername, setUserId, setFormsCreated, setRole
 } = userSlice.actions;
 
 export default userSlice.reducer;

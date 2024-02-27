@@ -11,7 +11,7 @@ import Logo from "./Logo";
 import { logout } from "../api/auth";
 
 function classNames(...classes) {
-    return classes.filter(Boolean).join(" ")
+    return classes.filter(Boolean).join(" ");
 };
 
 function NavigationBar(
@@ -143,7 +143,6 @@ function NavigationBar(
                                     </div>
                                     <div className="ml-3">
                                         <div className="text-base font-medium leading-none text-white">{user.name}</div>
-                                        <div className="text-sm font-medium leading-none text-gray-400">{user.email}</div>
                                     </div>
                                 </div>
                                 <div className="mt-3 flex items-center px-5">
@@ -163,19 +162,23 @@ function NavigationBar(
             <header className="bg-zinc-950 shadow">
                 <div className="flex justify-between items-center mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <h1 className="text-3xl font-bold tracking-tight text-white mb-4 sm:mb-0">{activeTab}</h1>
-                    <Tooltip
-                        id="add-icon-tooltip"
-                        anchorSelect=".add-icon-tooltip"
-                        place="bottom"
-                        effect="solid"
-                        content={"Creat new form"}
-                    />
-                    <Link
-                        className="add-icon-tooltip rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm"
-                        to={"/new-project"}
-                    >
-                        <FaPlus />
-                    </Link>
+                    {role === "user" && (
+                        <>
+                            <Tooltip
+                                id="add-icon-tooltip"
+                                anchorSelect=".add-icon-tooltip"
+                                place="bottom"
+                                effect="solid"
+                                content={"Creat new form"}
+                            />
+                            <Link
+                                className="add-icon-tooltip rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm"
+                                to={"/new-project"}
+                            >
+                                <FaPlus />
+                            </Link>
+                        </>
+                    )}
                 </div>
             </header>
             <main>

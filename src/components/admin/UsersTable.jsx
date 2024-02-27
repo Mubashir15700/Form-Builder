@@ -51,7 +51,7 @@ const UsersTable = () => {
           {row.formsCreated === 0 ? (
             <span className="text-gray-400">View Forms</span>
           ) : (
-            <Link to={``} className="btn btn-primary">
+            <Link to={`/admin/users/${row._id}/forms?username=${row.username}`} className="btn btn-primary">
               View Forms
             </Link>
           )}

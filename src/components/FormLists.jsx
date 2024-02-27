@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import FormsListDropDown from "../FormsListDropdown";
-import { getForms } from "../../api/user";
+import FormsListDropDown from "./FormsListDropdown";
+import { getForms } from "../api/user";
 
-export default function Example() {
-
+const FormLists = ({ role, userId }) => {
     const [forms, setForms] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -12,13 +11,19 @@ export default function Example() {
         const getAllForms = async () => {
             setLoading(true);
             try {
-                const response = await getForms();
+                let response;
+                if (role === "admin") {
+                    response = await getForms(userId);
+                } else {
+                    response = await getForms();
+                }
                 if (response && response.status === 200) {
                     setForms(response.forms);
                 } else {
                     toast.error("Failed to fetch forms");
                 }
             } catch (error) {
+                console.log(error);
                 toast.error("An error occured: ", error?.message);
             } finally {
                 setLoading(false);
@@ -46,7 +51,7 @@ export default function Example() {
                             </div>
                             <div className="flex flex-wrap">
                                 <FormsListDropDown
-                                    link={`${import.meta.env.VITE_AXIOS_BASE_URL}/forms/${form._id}`}
+                                    link={`${import.meta.env.VITE_APP_BASE_URL}/forms/${form._id}`}
                                     submissions={`/projects/${form._id}/submissions`}
                                 />
                             </div>
@@ -61,3 +66,5 @@ export default function Example() {
         </ul>
     );
 };
+
+export default FormLists;

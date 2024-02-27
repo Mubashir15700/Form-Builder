@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "../pages/Admin/Dashboard";
-const FormSubmissions = lazy(() => import("../pages/Admin/FormSubmissions"));
+const UserFormsLists = lazy(() => import("../pages/Admin/UserFormsLists"));
 const Login = lazy(() => import("../pages/Admin/Login"));
 import Error404 from "../pages/Error404";
 
@@ -11,7 +11,7 @@ const AdminRoutes = ({ isLoggedIn }) => {
 
     const routes = [
         { path: "/", element: isLoggedIn ? <Dashboard /> : navigateToLogin() },
-        { path: "/users/:userId/forms/:formId", element: isLoggedIn ? <FormSubmissions /> : navigateToLogin() },
+        { path: "/users/:userId/forms", element: isLoggedIn ? <UserFormsLists /> : navigateToLogin() },
         // Auth Route
         { path: "/login", element: !isLoggedIn ? <Login role={"admin"} /> : navigateDashboard() },
         // Error Page
