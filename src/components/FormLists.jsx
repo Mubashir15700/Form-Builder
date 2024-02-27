@@ -45,7 +45,7 @@ const FormLists = ({ role, userId }) => {
                         <li key={form._id} className="px-4 flex border rounded mb-3 justify-between gap-x-6 py-5">
                             <div className="flex min-w-0 gap-x-4">
                                 <div className="min-w-0 flex-auto">
-                                    <p className="text-sm font-semibold leading-6 text-gray-900">{form.title}</p>
+                                    <p className="text-sm font-semibold leading-6 text-gray-50">{form.title}</p>
                                     <p className="mt-1 truncate text-xs leading-5 text-gray-500">{form.description}</p>
                                 </div>
                             </div>
