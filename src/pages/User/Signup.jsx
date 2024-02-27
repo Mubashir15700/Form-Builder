@@ -11,6 +11,7 @@ import ServerResponseDisplay from "../../components/ServerResponseDisplay";
 import handleInputChange from "../../utils/formUtils/handleInputChange";
 import handleFormErrors from "../../utils/formUtils/handleFormErrors";
 import initializeUser from "../../utils/initializeUser";
+import { setLoggedIn } from "../../redux/slices/user";
 import { signUp } from "../../api/auth";
 
 const Signup = () => {
@@ -47,6 +48,7 @@ const Signup = () => {
             const response = await signUp(formData);
             if (response) {
                 if (response.status === 200) {
+                    dispatch(setLoggedIn(true));
                     initializeUser("user", dispatch);
                     navigate("/home");
                 } else {

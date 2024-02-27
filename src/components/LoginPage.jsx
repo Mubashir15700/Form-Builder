@@ -11,6 +11,7 @@ import Logo from "./Logo";
 import loginValidationSchema from "../utils/validations/loginSchema";
 import FormErrorDisplay from "./FormErrorDisplay";
 import ServerResponseDisplay from "./ServerResponseDisplay";
+import { setLoggedIn } from "../redux/slices/user";
 import { login } from "../api/auth";
 
 const Login = ({ role }) => {
@@ -47,6 +48,7 @@ const Login = ({ role }) => {
             if (response) {
                 setServerResponse(response);
                 if (response.status === 200) {
+                    dispatch(setLoggedIn(true));
                     if (role === "admin") {
                         initializeUser("admin", dispatch);
                         navigate("/admin");

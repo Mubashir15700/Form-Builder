@@ -144,6 +144,8 @@ const CreateForm = () => {
                                         </Draggable>
                                     ))}
                                     {provided.placeholder}
+                                    {/* Acknowledge Drag and Drop feature */}
+                                    <p className="text-sm text-gray-600 mt-2">You can reorder the form elements by dragging and dropping.</p>
                                 </form>
                             )}
                         </Droppable>
