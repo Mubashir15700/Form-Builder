@@ -51,7 +51,7 @@ const FormLists = ({ role, userId }) => {
                             </div>
                             <div className="flex flex-wrap">
                                 <FormsListDropDown
-                                    link={`${import.meta.env.VITE_APP_BASE_URL}/forms/${form._id}`}
+                                    link={`/forms/${form._id}`}
                                     submissions={`/projects/${form._id}/submissions`}
                                 />
                             </div>

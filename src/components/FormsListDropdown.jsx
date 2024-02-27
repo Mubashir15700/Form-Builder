@@ -10,8 +10,11 @@ function classNames(...classes) {
 
 const FormsListDropDown = ({ link, submissions }) => {
     const handleCopyLink = () => {
+
         const formLink = link;
-        navigator.clipboard.writeText(formLink);
+        const baseUrl = window.location.origin;
+
+        navigator.clipboard.writeText(`${baseUrl}${formLink}`);
     };
 
     return (
