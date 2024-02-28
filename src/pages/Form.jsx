@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import handleFormErrors from "../utils/formUtils/handleFormErrors";
 import FormErrorDisplay from "../components/FormErrorDisplay";
@@ -9,6 +9,8 @@ import { getForm, submitForm } from "../api/form";
 const Form = () => {
     // Get the id parameter from the URL
     const { id } = useParams();
+
+    const navigate = useNavigate();
 
     const [form, setForm] = useState({});
     const [formElements, setFormElements] = useState([]);
@@ -64,6 +66,7 @@ const Form = () => {
             const response = await submitForm(form._id, formData);
             if (response && response.status === 200) {
                 toast.success("Your response has been recorded");
+                navigate(`/forms/${form._id}/success`);
             } else {
                 toast.error("Failed to submit form");
             }

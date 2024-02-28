@@ -10,7 +10,7 @@ const UserFormsLists = () => {
 
     return (
         <div className="mt-10 px-4">
-            <h1>Forms created by {username}</h1>
+            <h1 className="divide-y mx-4 divide-gray-100">Forms created by {username}</h1>
             <FormLists role={"admin"} userId={userId} />
         </div>
     );

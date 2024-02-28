@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { getSubmissions } from "../../api/user";
-import { getForm } from "../../api/form";
+import { getSubmissions } from "../api/admin";
+import { getuserFormSubmissions } from "../api/user";
+import { getForm } from "../api/form";
 
 export default function FormSubmissions() {
+
+    const role = useSelector((state) => state.user.role);
 
     const { id } = useParams();
 
@@ -45,7 +49,12 @@ export default function FormSubmissions() {
         const getAllSubmissions = async () => {
             setLoading(true);
             try {
-                const response = await getSubmissions(id);
+                let response;
+                if (role === "admin") {
+                    response = await getSubmissions(id);
+                } else {
+                    response = await getuserFormSubmissions(id);
+                }
                 if (response && response.status === 200) {
                     setSubmissions(response.submissions);
                 } else {
@@ -63,7 +72,7 @@ export default function FormSubmissions() {
     }, []);
 
     return (
-        <ul role="list" className="pt-12 divide-y mx-4 divide-gray-100">
+        <ul role="list" className="pt-12 px-5 divide-y mx-4 divide-gray-100">
             {loading ? (
                 <div className="grid mt-12 place-items-center">
                     Loading...
@@ -89,7 +98,10 @@ export default function FormSubmissions() {
                                 {submissions?.map((submission, index) => (
                                     <tr key={index} className="text-black">
                                         {formElementIds.map((element, index) => (
-                                            <td key={index}>
+                                            <td
+                                                key={index}
+                                                className="whitespace-nowrap px-4 py-2 font-medium text-gray-900"
+                                            >
                                                 {submission.formData && submission.formData[formElementIds[index]]}
                                             </td>
                                         ))}

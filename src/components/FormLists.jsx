@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import FormsListDropDown from "./FormsListDropdown";
-import { getForms } from "../api/user";
+import { getForms, getSubmissions } from "../api/admin";
+import { getUserForms, getuserFormSubmissions } from "../api/user";
 
 const FormLists = ({ role, userId }) => {
     const [forms, setForms] = useState([]);
@@ -15,7 +16,7 @@ const FormLists = ({ role, userId }) => {
                 if (role === "admin") {
                     response = await getForms(userId);
                 } else {
-                    response = await getForms();
+                    response = await getUserForms();
                 }
                 if (response && response.status === 200) {
                     setForms(response.forms);

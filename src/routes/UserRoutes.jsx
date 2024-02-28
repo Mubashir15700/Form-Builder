@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import LandingPage from "../pages/User/LandingPage";
 import Home from "../pages/User/Home";
 import CreateForm from "../pages/User/CreateForm";
-import FormSubmissions from "../pages/User/FormSubmissions";
+import FormSubmissions from "../pages/FormSubmissions";
 const Login = lazy(() => import("../pages/User/Login"));
 const Signup = lazy(() => import("../pages/User/Signup"));
 import Error404 from "../pages/Error404";
