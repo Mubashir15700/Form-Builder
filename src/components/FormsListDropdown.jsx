@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { IoMdCopy } from "react-icons/io";
+import toast from "react-hot-toast";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ")
@@ -15,6 +16,8 @@ const FormsListDropDown = ({ link, submissions }) => {
         const baseUrl = window.location.origin;
 
         navigator.clipboard.writeText(`${baseUrl}${formLink}`);
+
+        toast.success("Link copied to clipboard");
     };
 
     return (
@@ -42,7 +45,7 @@ const FormsListDropDown = ({ link, submissions }) => {
                                 <button
                                     className={classNames(
                                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                                        "block px-4 py-2 text-sm"
+                                        "block px-4 py-2 text-sm flex w-full"
                                     )}
                                     onClick={handleCopyLink}
                                 >
@@ -68,7 +71,7 @@ const FormsListDropDown = ({ link, submissions }) => {
                                 <button
                                     className={classNames(
                                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                                        "block px-4 py-2 text-sm"
+                                        "block px-4 py-2 text-sm flex w-full"
                                     )}
                                 >
                                     Delete Form

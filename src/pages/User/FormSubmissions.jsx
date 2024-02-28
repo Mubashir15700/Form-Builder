@@ -70,13 +70,15 @@ export default function FormSubmissions() {
                 </div>
             ) : (
                 submissions.length ? (
-                    <div className="overflow-x-auto">
-                        <p>{form.title}</p>
-                        <p>{form.description}</p>
+                    <div className="overflow-x-auto border rounded">
+                        <div className="bg-dark">
+                            <h2 className="text-center">{form.title}</h2>
+                            <p className="text-center text-gray-600">{form.description}</p>
+                        </div>
                         <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                             <thead className="ltr:text-left rtl:text-right">
                                 <tr>
-                                    {formElements.map((element, index) => (
+                                    {formElements && Array.isArray(formElements) && formElements.map((element, index) => (
                                         <th key={index} className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                                             {element.name}
                                         </th>
@@ -84,11 +86,11 @@ export default function FormSubmissions() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
-                                {submissions.map((submission, index) => (
+                                {submissions?.map((submission, index) => (
                                     <tr key={index} className="text-black">
                                         {formElementIds.map((element, index) => (
                                             <td key={index}>
-                                                {submission.formData[formElementIds[index]]}
+                                                {submission.formData && submission.formData[formElementIds[index]]}
                                             </td>
                                         ))}
                                     </tr>
