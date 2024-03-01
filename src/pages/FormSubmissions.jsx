@@ -42,7 +42,7 @@ export default function FormSubmissions() {
                     toast.error("Failed to fetch form");
                 }
             } catch (error) {
-                toast.error("An error occurred: " + error.message);
+                toast.error(`An error occurred: ${error.message}`);
             }
         };
 

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import FormsListDropDown from "./FormsListDropdown";
-import { getForms, getSubmissions } from "../api/admin";
-import { getUserForms, getuserFormSubmissions } from "../api/user";
+import { getForms } from "../api/admin";
+import { getUserForms } from "../api/user";
 
 const FormLists = ({ role, userId }) => {
     const [forms, setForms] = useState([]);
@@ -24,8 +24,8 @@ const FormLists = ({ role, userId }) => {
                     toast.error("Failed to fetch forms");
                 }
             } catch (error) {
-                console.log(error);
-                toast.error("An error occured: ", error?.message);
+                console.log("An error occured", error);
+                toast.error(`An error occured: ${error?.message}`);
             } finally {
                 setLoading(false);
             }

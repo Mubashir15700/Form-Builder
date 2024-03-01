@@ -112,7 +112,7 @@ const CreateForm = () => {
                 toast.error("Form title, description and atleast one field are required");
             }
         } catch (error) {
-            toast.error("An error occured: " + error.message);
+            toast.error(`An error occured: " ${error.message}`);
         }
     };
 
